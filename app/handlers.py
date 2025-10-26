@@ -4,6 +4,7 @@ from aiogram.types import Message, FSInputFile
 
 import qrcode
 import re
+import os
 
 router = Router()
 
@@ -36,6 +37,10 @@ async def create_qr(message: Message):
     qr.make(fit=True) 
     img = qr.make_image(fill_color="black", back_color="white")
     img.save(filepath)
-    photo = FSInputFile(filepath)
-    await message.answer_photo(photo=photo, caption=f"QR-код для: {link_to_convert}")
+    try:
+        photo = FSInputFile(filepath)
+        await message.answer_photo(photo=photo, caption=f"QR-код для: {link_to_convert}")
+    finally:
+        if os.path.exists(filepath):
+            os.remove(filepath)
     
