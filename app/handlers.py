@@ -24,6 +24,7 @@ async def create_qr(message: Message):
             cleaned = cleaned[:100]
         return cleaned
     
+    os.makedirs("images", exist_ok=True)
     filename = clean_filename(link_to_convert)
     filepath = f"images/{filename}.png"
       
